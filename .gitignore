@@ -144,3 +144,7 @@ hs_err_pid*
 target/*
 
 .properties
+
+.idea
+target
+*.iml
