@@ -5,20 +5,29 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "plan")
-public class Plan
+@Table(name = "recipe")
+public class Recipe
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(45)")
+    @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String ingredients;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
     private LocalDateTime created;
+
+    private LocalDateTime updated;
+
+    @Column(name = "preparation_time")
+    private Integer preparationTime;
 
     @ManyToOne
     private Admin admin;
@@ -28,6 +37,12 @@ public class Plan
     public void prePersist()
     {
         created = LocalDateTime.now(); // this field will be autofilled
+    }
+
+    @PreUpdate
+    public void preUpdate()
+    {
+        updated = LocalDateTime.now();  // this field will be autofilled
     }
 
 
@@ -51,6 +66,16 @@ public class Plan
         this.name = name;
     }
 
+    public String getIngredients()
+    {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients)
+    {
+        this.ingredients = ingredients;
+    }
+
     public String getDescription()
     {
         return description;
@@ -71,6 +96,26 @@ public class Plan
         this.created = created;
     }
 
+    public LocalDateTime getUpdated()
+    {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated)
+    {
+        this.updated = updated;
+    }
+
+    public Integer getPreparationTime()
+    {
+        return preparationTime;
+    }
+
+    public void setPreparationTime(Integer preparationTime)
+    {
+        this.preparationTime = preparationTime;
+    }
+
     public Admin getAdmin()
     {
         return admin;
@@ -84,11 +129,14 @@ public class Plan
     @Override
     public String toString()
     {
-        return "Plan{" +
+        return "Recipe{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", ingredients='" + ingredients + '\'' +
                 ", description='" + description + '\'' +
                 ", created=" + created +
+                ", updated=" + updated +
+                ", preparationTime=" + preparationTime +
                 ", admin=" + admin +
                 '}';
     }
@@ -98,8 +146,8 @@ public class Plan
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Plan plan = (Plan) o;
-        return Objects.equals(id, plan.id);
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(id, recipe.id);
     }
 
     @Override
