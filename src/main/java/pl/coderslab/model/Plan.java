@@ -18,11 +18,18 @@ public class Plan
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
     private LocalDateTime created;
 
     @ManyToOne
     private Admin admin;
+
+
+    @PrePersist
+    public void prePersist()
+    {
+        created = LocalDateTime.now(); // this field will be autofilled
+    }
+
 
     public Long getId()
     {
@@ -82,6 +89,7 @@ public class Plan
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", created=" + created +
+                ", admin=" + admin +
                 '}';
     }
 
