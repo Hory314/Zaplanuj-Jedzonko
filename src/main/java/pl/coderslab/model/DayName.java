@@ -1,17 +1,18 @@
 package pl.coderslab.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "day_name")
+public class DayName {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
     private int id;
-    @Column(name = "role")
+    @Size(max=45)
     private String name;
-
+    @Column(name = "order_no")
+    private int order;
 
     public int getId() {
         return id;
@@ -27,5 +28,13 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }
