@@ -7,10 +7,11 @@ import javax.validation.constraints.Size;
 @Table(name = "day_name")
 public class DayName {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Size(max=45)
     private String name;
+    @Column(name = "order_no")
     private int order;
 
     public int getId() {
