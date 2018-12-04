@@ -7,9 +7,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.hibernate.criterion.Restrictions.and;
+
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter
+{
 
 
 //    @Bean
@@ -18,17 +21,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder()
+    {
         return new BCryptPasswordEncoder();
     }
 
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception
+    {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/admin").authenticated()
-                .and().formLogin();
-    }
+                .antMatchers("/login").authenticated()
+                .antMatchers("/**").permitAll()
 
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/")
+                .failureUrl("/login")
+
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+
+                .and()
+                .httpBasic();
+    }
 }
