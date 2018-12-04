@@ -1,6 +1,9 @@
 package pl.coderslab.model;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -10,15 +13,20 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Size(min=2,max=245)
+    @Size(min=2,max=245,message = "*Imię powinno mieć co najmniej 2 znaki")
     private String firstName;
-    @Size(min=3,max=245)
+    @Size(min=3,max=245,message = "*Nazwisko powinno mieć co najmniej 3 znaki")
     private String lastName;
-    @Size(min=5,max=245)
+    @Column(nullable	=	false,	unique	=	true)
+    @Size(max=245)
+    @Email(message = "*Wpisz prawidłowy adres email")
     private String email;
-    @Size(min=5,max=45)
+    @Size(min=5,max=245,message = "*Hasło powinno mieć od 5 do 45 znaków")
     private String password;
-    private int superadmin;
+    @Transient
+    private String passwordRepeat;
+    @Max(1)
+    private int superAdmin;
     private Boolean enable;
 
     public int getId() {
@@ -61,12 +69,12 @@ public class Admin {
         this.password = password;
     }
 
-    public int getSuperadmin() {
-        return superadmin;
+    public int getSuperAdmin() {
+        return superAdmin;
     }
 
-    public void setSuperadmin(int superadmin) {
-        this.superadmin = superadmin;
+    public void setSuperAdmin(int superAdmin) {
+        this.superAdmin = superAdmin;
     }
 
     public Boolean getEnable() {
@@ -77,6 +85,14 @@ public class Admin {
         this.enable = enable;
     }
 
+    public String getPasswordRepeat() {
+        return passwordRepeat;
+    }
+
+    public void setPasswordRepeat(String passwordRepeat) {
+        this.passwordRepeat = passwordRepeat;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +
@@ -85,8 +101,6 @@ public class Admin {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", superadmin=" + superadmin +
-                ", enable=" + enable +
                 '}';
     }
 

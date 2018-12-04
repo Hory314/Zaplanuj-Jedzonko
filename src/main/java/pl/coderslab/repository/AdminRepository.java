@@ -8,4 +8,5 @@ import pl.coderslab.model.Admin;
 @Service
 @Transactional
 public interface AdminRepository extends JpaRepository<Admin,Integer> {
+    Admin findAdminByEmail(String email);
 }
