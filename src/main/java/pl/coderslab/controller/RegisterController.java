@@ -38,7 +38,9 @@ public class RegisterController {
         if (!admin.getPassword().equals(admin.getPasswordRepeat())) {
             return"registration";
         }
+        admin.setEnable(true);
+        admin.setSuperAdmin(0);
         adminService.save(admin);
-        return "redirect:/login/";
+        return "redirect:/login";
     }
 }
