@@ -3,10 +3,12 @@ package pl.coderslab.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.model.Admin;
 import pl.coderslab.repository.AdminRepository;
 
 @Service
+// @Transactional // should be tranactional?
 public class AdminService {
 
     private AdminRepository adminRepository;

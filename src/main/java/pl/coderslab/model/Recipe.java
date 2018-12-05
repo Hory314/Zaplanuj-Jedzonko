@@ -2,6 +2,7 @@ package pl.coderslab.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,6 +33,18 @@ public class Recipe
     @ManyToOne
     private Admin admin;
 
+    @OneToMany(mappedBy = "recipe")
+    private List<RecipePlan> recipePlans;
+
+    public List<RecipePlan> getRecipePlans()
+    {
+        return recipePlans;
+    }
+
+    public void setRecipePlans(List<RecipePlan> recipePlans)
+    {
+        this.recipePlans = recipePlans;
+    }
 
     @PrePersist
     public void prePersist()
