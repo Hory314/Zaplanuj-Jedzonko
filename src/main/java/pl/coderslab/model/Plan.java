@@ -2,6 +2,7 @@ package pl.coderslab.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +23,39 @@ public class Plan
 
     @ManyToOne
     private Admin admin;
+
+    @OneToMany(mappedBy = "plan")
+    private List<RecipePlan> recipePlans;
+
+    public List<RecipePlan> getRecipePlans()
+    {
+        return recipePlans;
+    }
+
+    public void setRecipePlans(List<RecipePlan> recipePlans)
+    {
+        this.recipePlans = recipePlans;
+    }
+
+/* @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "recipe_plan",
+            joinColumns = @JoinColumn(name = "plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+    )
+    private List<Recipe> recipes;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "recipe_plan",
+            joinColumns = @JoinColumn(name = "plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "day_name_id")
+    )
+    private List<DayName> dayNames;*/
 
 
     @PrePersist
