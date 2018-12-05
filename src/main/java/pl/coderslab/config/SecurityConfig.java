@@ -1,24 +1,23 @@
 package pl.coderslab.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.hibernate.criterion.Restrictions.and;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-
-
-//    @Bean
-//    public SpringDataUserDetailsService customUserDetailsService() {
-//        return new SpringDataUserDetailsService();
-//    }
+    @Autowired
+    DataSource dataSource;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder()
@@ -26,26 +25,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return new BCryptPasswordEncoder();
     }
 
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.jdbcAuthentication()
+                .dataSource(dataSource) // my DB data source
+                .passwordEncoder(passwordEncoder()) // using password encoder while login
+                .usersByUsernameQuery("SELECT email, password, enable FROM admins WHERE email = ?") // pointing to my table (because default is `users`)
+                .authoritiesByUsernameQuery("SELECT email, 'default' FROM admins WHERE email = ?"); // mocking authorities table
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/login").authenticated()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/app/**").authenticated() // require login in this path
+                .anyRequest().permitAll() // permit all for the rest of paths
 
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/")
-                .failureUrl("/login")
+                .loginPage("/login").permitAll() // login page set to /login and all users are permitted to visit it
+                .defaultSuccessUrl("/") // redirect after successful login
+                .failureUrl("/login?error") // redirect after unsuccessful login
 
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // path /logout is mapped
+                .logoutSuccessUrl("/") // redirect after logout
+                .invalidateHttpSession(true) // invalidate session
+                .deleteCookies("JSESSIONID") // delete session cookie
 
                 .and()
                 .httpBasic();

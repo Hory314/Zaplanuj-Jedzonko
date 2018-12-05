@@ -11,9 +11,8 @@ import pl.coderslab.dto.LoginDTO;
 public class LoginController
 {
     @GetMapping
-    public String prepareLogin(Model m)
+    public String prepareLogin()
     {
-        m.addAttribute("newLogin", new LoginDTO());
-        return "user/login";
+        return "login"; // spring security will do the rest
     }
 }
