@@ -26,6 +26,7 @@ public class Admin {
     @Transient
     private String passwordRepeat;
     @Max(1)
+    @Column(columnDefinition = "INT(1) DEFAULT 0")
     private int superAdmin;
     private Boolean enable;
 
