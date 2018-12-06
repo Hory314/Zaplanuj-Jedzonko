@@ -10,7 +10,7 @@ import java.util.Objects;
 public class DayName {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @Size(max=45)
     private String name;
     @Column(name = "order_no")
@@ -18,11 +18,11 @@ public class DayName {
     @OneToMany(mappedBy = "dayName")
     private List<RecipePlan> recipePlans;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -13,9 +13,9 @@ public class PlanService
     @Autowired
     PlanRepository planRepository;
 
-    public int getUserPlansCount(int userId)
+    public int getUserPlansCount(Long userId)
     {
-        return planRepository.getNumberOfPlansEnteredByAdmin(userId);
+        return planRepository.getUserPlansCount(userId);
     }
 
     public Plan getLastUserPlan(int userId)

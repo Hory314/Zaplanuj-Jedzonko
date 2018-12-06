@@ -12,7 +12,6 @@ import pl.coderslab.service.PlanService;
 import pl.coderslab.service.RecipeService;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/")
@@ -42,7 +41,7 @@ public class HomeController
             model.addAttribute("plans_count", planService.getUserPlansCount(user.getId()));
             Plan p = new Plan();
             Admin a = new Admin();
-            a.setId(2);
+            a.setId(2L);
             p.setAdmin(a);
             p.setId(1L);
             p.setDescription("jakis opis");

@@ -30,6 +30,9 @@ public class Recipe
     @Column(name = "preparation_time")
     private Integer preparationTime;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String preparation;
+
     @ManyToOne
     private Admin admin;
 
@@ -129,6 +132,16 @@ public class Recipe
         this.preparationTime = preparationTime;
     }
 
+    public String getPreparation()
+    {
+        return preparation;
+    }
+
+    public void setPreparation(String preparation)
+    {
+        this.preparation = preparation;
+    }
+
     public Admin getAdmin()
     {
         return admin;
@@ -140,8 +153,7 @@ public class Recipe
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Recipe{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
@@ -150,7 +162,9 @@ public class Recipe
                 ", created=" + created +
                 ", updated=" + updated +
                 ", preparationTime=" + preparationTime +
+                ", preparation='" + preparation + '\'' +
                 ", admin=" + admin +
+                ", recipePlans=" + recipePlans +
                 '}';
     }
 

@@ -8,7 +8,7 @@ import pl.coderslab.model.Admin;
 import pl.coderslab.repository.AdminRepository;
 
 @Service
-// @Transactional // should be tranactional?
+@Transactional
 public class AdminService {
 
     private AdminRepository adminRepository;

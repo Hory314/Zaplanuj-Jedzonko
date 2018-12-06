@@ -6,6 +6,6 @@ import pl.coderslab.model.Plan;
 
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     @Query(value = "SELECT count(*) FROM plan p WHERE p.admin_id = ?1", nativeQuery = true)
-    int getNumberOfPlansEnteredByAdmin(int adminId);
+    int getUserPlansCount(Long userId);
 
 }

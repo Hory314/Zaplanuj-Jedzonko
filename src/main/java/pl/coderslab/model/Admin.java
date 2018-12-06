@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @Size(min=2,max=245,message = "*Imię powinno mieć co najmniej 2 znaki")
     private String firstName;
     @Size(min=3,max=245,message = "*Nazwisko powinno mieć co najmniej 3 znaki")
@@ -30,11 +30,11 @@ public class Admin {
     private int superAdmin;
     private Boolean enable;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
