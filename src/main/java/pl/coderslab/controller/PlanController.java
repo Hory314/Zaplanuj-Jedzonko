@@ -9,53 +9,44 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.model.Admin;
-import pl.coderslab.model.Recipe;
+import pl.coderslab.model.Plan;
 import pl.coderslab.service.AdminService;
-import pl.coderslab.service.RecipeService;
+import pl.coderslab.service.PlanService;
 
 import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/recipes")
-public class RecipeController {
+@RequestMapping("/plans")
+public class PlanController {
 
     @Autowired
-    private RecipeService recipeService;
+    private PlanService planService;
 
     @Autowired
     AdminService adminService;
 
-    @GetMapping("")
-    public String recipesList(Model model, Principal principal)
-    {
-        Admin user = adminService.findAdminByEmail(principal.getName());
-        model.addAttribute("user",user);
-        model.addAttribute("recipes", recipeService.findAllRecipesByUserId(user.getId()));
-        return "recipe/recipesList";
-    }
-
     @GetMapping("/add")
-    public String addRecipeForm(Model model, Principal principal)
+    public String addPlanForm(Model model, Principal principal)
     {
         Admin user = adminService.findAdminByEmail(principal.getName());
-        Recipe recipe = new Recipe();
-        model.addAttribute("recipe", recipe);
+        Plan plan =new Plan();
+        model.addAttribute("plan", plan);
         model.addAttribute("user",user);
-        return "recipe/addRecipe";
+        return "plan/addPlan";
     }
 
     @PostMapping("/add")
-    public String addRecipe (@ModelAttribute @Valid Recipe recipe, Principal principal, BindingResult result)
+    public String addPlan (@ModelAttribute @Valid Plan plan, Principal principal, BindingResult result)
     {
         if (result.hasErrors())
         {
-            return "recipe/addRecipe";
+            return "plan/addPlan";
         }
         Admin user = adminService.findAdminByEmail(principal.getName());
-        recipe.setAdmin(user);
-        recipeService.save(recipe);
-        return "redirect:../recipes";
+        plan.setAdmin(user);
+        planService.save(plan);
+        return "redirect:../plan/list"; //not functioning yet
     }
 
 }
