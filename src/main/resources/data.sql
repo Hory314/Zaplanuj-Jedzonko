@@ -1,5 +1,5 @@
 INSERT INTO scrumlabspring.admins (id, email, enable, first_name, last_name, password, super_admin) VALUES (1, 'asdfas@dsaf.df', true, 'asdfsa', 'asdfsa', 'sadfgrgf235324r12edqwaefg', 0);
-INSERT INTO scrumlabspring.admins (id, email, enable, first_name, last_name, password, super_admin) VALUES (2, 'lol@o2.pl', true, 'Michał', 'Hordy', '$2a$10$VQIsWC5vDAncqcLchqXmsO.f1oE8KcAiYk4IGA1Bq00RSPueo67KG', 0);
+INSERT INTO scrumlabspring.admins (id, email, enable, first_name, last_name, password, super_admin) VALUES (2, 'aa@aa.aa', true, 'Michał', 'Hordy', '$2a$10$3OX8CBjeXh0lt06efao3NOHCERQkqUIduZEnRshtD6t/g4ACOwNOi', 0);
 
 INSERT INTO scrumlabspring.day_name (id, name, order_no) VALUES (1, 'poniedzialek', 1);
 INSERT INTO scrumlabspring.day_name (id, name, order_no) VALUES (2, 'wtorek', 2);

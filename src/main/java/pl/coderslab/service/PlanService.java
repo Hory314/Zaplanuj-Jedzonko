@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.dto.RecipePlanDTO;
+import pl.coderslab.model.Plan;
 import pl.coderslab.repository.PlanRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -60,5 +64,9 @@ public class PlanService
     private List<RecipePlanDTO> getUserLastPlan(Long userId)
     {
         return planRepository.usrLstPln(userId);
+    }
+
+    public List<Plan> findPlansByUserId(Long userId){
+        return planRepository.findAllByAdminId(userId);
     }
 }

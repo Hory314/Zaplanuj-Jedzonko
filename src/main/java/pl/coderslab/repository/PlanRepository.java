@@ -17,4 +17,6 @@ public interface PlanRepository extends JpaRepository<Plan, Long>
 
     @Query(value = "SELECT name FROM plan WHERE id = (SELECT MAX(id) FROM plan WHERE admin_id = ?1)", nativeQuery = true)
     String getLastPlanName(Long userId);
+
+    List<Plan> findAllByAdminId(Long userId);
 }

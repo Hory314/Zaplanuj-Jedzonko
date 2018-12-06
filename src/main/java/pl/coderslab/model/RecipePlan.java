@@ -9,16 +9,20 @@ import java.util.Objects;
 public class RecipePlan implements Serializable
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+//    @Id
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @Id
+//    @Id
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @Id
+//    @Id
     @ManyToOne
     @JoinColumn(name = "day_name_id")
     private DayName dayName;
@@ -28,6 +32,14 @@ public class RecipePlan implements Serializable
 
     @Column(name = "meal_name")
     private String mealName;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public DayName getDayName()
     {

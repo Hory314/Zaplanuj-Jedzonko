@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.model.Admin;
-import pl.coderslab.model.Recipe;
-import pl.coderslab.service.AdminService;
-import pl.coderslab.service.RecipeService;
+import pl.coderslab.model.*;
+import pl.coderslab.service.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/recipes")
@@ -24,7 +23,16 @@ public class RecipeController {
     private RecipeService recipeService;
 
     @Autowired
-    AdminService adminService;
+    private RecipePlanService recipePlanService;
+
+    @Autowired
+    private AdminService adminService;
+
+    @Autowired
+    private PlanService planService;
+
+    @Autowired
+    private DayNameService dayNameService;
 
     @GetMapping("")
     public String recipesList(Model model, Principal principal){
@@ -52,19 +60,29 @@ public class RecipeController {
         return "redirect:../recipes";
     }
 
-//    Po wejściu na stronę _**/app/recipe/add**_ metodą GET powininen pojawić się formularz, w którym można dodać nowy przepis.
-//
-//    Pola formularza:
-//
-//            - nazwa przepisu (pole typu **text**),
-//- opis przepisu (pole typu **text**),
-//- czas przygotowania w minutach (pole typu **number**),
-//- sposób przygotowania (pole typu **textarea**),
-//- składniki (pole typu **textarea**).
-//
-//    Formularz musi posiadać przycisk _**Wyślij**_, po naciśnięciu którego ma zostać wysłany metodą POST na stronę _**/app/recipe/add**_.
-//
-//    Utwórz kontroler i dołącz odpowiednio skomponowany widok dla formularza dodawania przepisu.
-//
-//    Pamiętaj o dodaniu walidacji do pól (jeśli została ustalona przez zespół).
+    @GetMapping("/plan/add")
+    public String addRecipeToPlanForm(Model model, Principal principal){
+        Admin user = adminService.findAdminByEmail(principal.getName());
+        RecipePlan recipePlan = new RecipePlan();
+        List<Plan> plans = planService.findPlansByUserId(user.getId());
+        List<DayName> days = dayNameService.findAll();
+        List<Recipe> recipes = recipeService.findAllRecipesByUserId(user.getId());
+        model.addAttribute("recipePlan",recipePlan);
+        model.addAttribute("plans", plans);
+        model.addAttribute("days", days);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("user",user);
+        return "recipe/addRecipeToPlan";
+    }
+
+    @PostMapping("/plan/add")
+    public String addRecipeToPlan (@ModelAttribute @Valid RecipePlan recipePlan, BindingResult result) {
+        if (result.hasErrors()) {
+            return "recipe/addRecipeToPlan";
+        }
+        recipePlanService.save(recipePlan);
+        return "redirect:../plan/add";
+    }
+
+
 }
