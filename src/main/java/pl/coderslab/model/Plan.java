@@ -1,11 +1,39 @@
 package pl.coderslab.model;
 
+import pl.coderslab.dto.RecipePlanDTO;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "plan")
+@SqlResultSetMapping(
+        name = "LastPlanResult", // resultSet name
+        classes = {
+                @ConstructorResult(
+                        targetClass = RecipePlanDTO.class, // target mapping class
+                        columns = {
+                                @ColumnResult(name = "day_name"), // column names returned by query in RIGHT order
+                                @ColumnResult(name = "meal_name"),
+                                @ColumnResult(name = "recipe_name"),
+                                @ColumnResult(name = "recipe_description") // target class (DTO) must have constructor for this columns in RIGHT order
+                        }
+                )
+        }
+)
+
+@NamedNativeQuery(
+        name = "LastPlanResult", // result set mapping name
+        query = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+                "FROM recipe_plan\n" +
+                "       JOIN day_name on day_name.id=day_name_id\n" +
+                "       JOIN recipe on recipe.id=recipe_id WHERE\n" +
+                "    plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?1)\n" +
+                "ORDER by day_name.order_no, recipe_plan.order_no",
+        resultClass = RecipePlanDTO.class, // this query will be mapped to RecipePlanDTO class
+        resultSetMapping = "LastPlanResult") // result set mapping name
 public class Plan
 {
     @Id
@@ -23,6 +51,18 @@ public class Plan
     @ManyToOne
     private Admin admin;
 
+    @OneToMany(mappedBy = "plan")
+    private List<RecipePlan> recipePlans;
+
+    public List<RecipePlan> getRecipePlans()
+    {
+        return recipePlans;
+    }
+
+    public void setRecipePlans(List<RecipePlan> recipePlans)
+    {
+        this.recipePlans = recipePlans;
+    }
 
     @PrePersist
     public void prePersist()

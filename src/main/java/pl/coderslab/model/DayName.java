@@ -2,6 +2,7 @@ package pl.coderslab.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,8 @@ public class DayName {
     private String name;
     @Column(name = "order_no")
     private int order;
+    @OneToMany(mappedBy = "dayName")
+    private List<RecipePlan> recipePlans;
 
     public int getId() {
         return id;
