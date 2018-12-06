@@ -8,13 +8,17 @@ import java.util.Objects;
 @Entity
 @Table(name = "day_name")
 public class DayName {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Size(max=45)
     private String name;
+
     @Column(name = "order_no")
     private int order;
+
     @OneToMany(mappedBy = "dayName")
     private List<RecipePlan> recipePlans;
 

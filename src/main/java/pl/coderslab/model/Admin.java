@@ -10,24 +10,32 @@ import java.util.Objects;
 @Entity
 @Table(name="admins")
 public class Admin {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Size(min=2,max=245,message = "*Imię powinno mieć co najmniej 2 znaki")
     private String firstName;
+
     @Size(min=3,max=245,message = "*Nazwisko powinno mieć co najmniej 3 znaki")
     private String lastName;
+
     @Column(nullable	=	false,	unique	=	true)
     @Size(max=245)
     @Email(message = "*Wpisz prawidłowy adres email")
     private String email;
+
     @Size(min=5,max=245,message = "*Hasło powinno mieć od 5 do 45 znaków")
     private String password;
+
     @Transient
     private String passwordRepeat;
+
     @Max(1)
     @Column(columnDefinition = "INT(1) DEFAULT 0")
     private int superAdmin;
+
     private Boolean enable;
 
     public Long getId() {
