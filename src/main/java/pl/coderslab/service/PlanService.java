@@ -20,7 +20,7 @@ public class PlanService
         return planRepository.getUserPlansCount(userId);
     }
 
-    public String getLastPlanName(int userId)
+    public String getLastPlanName(Long userId)
     {
         return planRepository.getLastPlanName(userId);
     }
@@ -29,7 +29,7 @@ public class PlanService
      * @param userId
      * @return last user plan as map key->value: dayName -> List{mealName, recipeName, recipeDescription}
      */
-    public Map<String, List<RecipePlanDTO>> getLastPlanMap(int userId)
+    public Map<String, List<RecipePlanDTO>> getLastPlanMap(Long userId)
     {
         List<RecipePlanDTO> recipePlanDTOList = getUserLastPlan(userId);
 
@@ -57,7 +57,7 @@ public class PlanService
         return map;
     }
 
-    private List<RecipePlanDTO> getUserLastPlan(int userId)
+    private List<RecipePlanDTO> getUserLastPlan(Long userId)
     {
         return planRepository.usrLstPln(userId);
     }
