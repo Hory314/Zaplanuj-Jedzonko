@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.repository.RecipeRepository;
 
+
 @Service
 @Transactional
 public class RecipeService

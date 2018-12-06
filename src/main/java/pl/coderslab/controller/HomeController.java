@@ -6,13 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.model.Admin;
-import pl.coderslab.model.Plan;
 import pl.coderslab.service.AdminService;
 import pl.coderslab.service.PlanService;
 import pl.coderslab.service.RecipeService;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/")
@@ -40,14 +38,8 @@ public class HomeController
             model.addAttribute("user", user);
             model.addAttribute("recipes_count", recipeService.getUserRecipesCount(user.getId()));
             model.addAttribute("plans_count", planService.getUserPlansCount(user.getId()));
-            Plan p = new Plan();
-            Admin a = new Admin();
-            a.setId(2);
-            p.setAdmin(a);
-            p.setId(1L);
-            p.setDescription("jakis opis");
-            p.setName("nowy plaaaan");
-            model.addAttribute("last_plan", p/*planService.getLastUserPlan(user.getId())*/);
+            model.addAttribute("last_plan_name", planService.getLastPlanName(user.getId()));
+            model.addAttribute("last_plan", planService.getLastPlanMap(user.getId())); // this return map!
         }
 
         return "index";
