@@ -4,21 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.dto.RecipeDTO;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.service.AdminService;
 import pl.coderslab.service.RecipeService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/recipes")
-public class RecipeController {
+public class RecipeController
+{
 
     @Autowired
     private RecipeService recipeService;
@@ -26,13 +27,21 @@ public class RecipeController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping("")
+    @GetMapping
     public String recipesList(Model model, Principal principal)
     {
-        Admin user = adminService.findAdminByEmail(principal.getName());
-        model.addAttribute("user",user);
-        model.addAttribute("recipes", recipeService.findAllRecipesByUserId(user.getId()));
-        return "recipe/recipesList";
+        if (principal != null) // if user logged, show his recipes
+        {
+            Admin user = adminService.findAdminByEmail(principal.getName());
+            model.addAttribute("user", user);
+            model.addAttribute("recipes", recipeService.findAllRecipesByUserId(user.getId()));
+            return "recipe/recipesList";
+        }
+        else // if not logged, show recipes of all users
+        {
+            model.addAttribute("recipes", recipeService.findAll());
+            return "recipe/allRecipes";
+        }
     }
 
     @GetMapping("/add")
@@ -41,7 +50,7 @@ public class RecipeController {
         Admin user = adminService.findAdminByEmail(principal.getName());
         Recipe recipe = new Recipe();
         model.addAttribute("recipe", recipe);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "recipe/addRecipe";
     }
 
@@ -58,4 +67,30 @@ public class RecipeController {
         return "redirect:../recipes";
     }
 
+    @GetMapping("/{id}")
+    public String recipeDetails(@PathVariable Long id, Model model, Principal principal)
+    {
+        try
+        {
+            if (principal != null)
+            {
+
+                Admin user = adminService.findAdminByEmail(principal.getName());
+                RecipeDTO recipeDTO = recipeService.getOneIfUserCan(id, user.getId()); // if null... (recipe not exist or user not allowed)
+                model.addAttribute("recipe", recipeDTO);
+                return "recipe/details";
+            }
+            else
+            {
+                RecipeDTO recipeDTO = recipeService.getOne(id);
+                model.addAttribute("recipe", recipeDTO);
+                return "recipe/mainDetails";
+            }
+        }
+        catch (NullPointerException | EntityNotFoundException e)
+        {
+            //e.printStackTrace();
+            return "dashboard/403"; // ... then catched and error site displayed
+        }
+    }
 }
