@@ -55,12 +55,14 @@ public class RecipeController
     }
 
     @PostMapping("/add")
-    public String addRecipe(@ModelAttribute @Valid Recipe recipe, BindingResult result)
+    public String addRecipe (@ModelAttribute @Valid Recipe recipe, Principal principal, BindingResult result)
     {
         if (result.hasErrors())
         {
             return "recipe/addRecipe";
         }
+        Admin user = adminService.findAdminByEmail(principal.getName());
+        recipe.setAdmin(user);
         recipeService.save(recipe);
         return "redirect:../recipes";
     }

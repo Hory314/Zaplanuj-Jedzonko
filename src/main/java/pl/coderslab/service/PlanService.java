@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.dto.RecipePlanDTO;
+import pl.coderslab.model.Plan;
 import pl.coderslab.repository.PlanRepository;
 
 import java.util.*;
@@ -60,5 +61,10 @@ public class PlanService
     private List<RecipePlanDTO> getUserLastPlan(Long userId)
     {
         return planRepository.usrLstPln(userId);
+    }
+
+    public void save(Plan plan)
+    {
+        planRepository.save(plan);
     }
 }
