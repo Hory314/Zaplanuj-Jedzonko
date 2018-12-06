@@ -12,5 +12,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     @Query("SELECT r from Recipe r where r.admin.id =?1")
     List<Recipe> getRecipesByUserId(Long userId);
+
+    Recipe getOneByIdAndAdminId(Long recipeId, Long userId);
+
+    List<Recipe> findAllByOrderByIdDesc();
 }
 
