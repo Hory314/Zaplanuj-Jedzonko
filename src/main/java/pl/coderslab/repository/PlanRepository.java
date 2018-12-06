@@ -10,11 +10,11 @@ import java.util.List;
 public interface PlanRepository extends JpaRepository<Plan, Long>
 {
     @Query(value = "SELECT count(*) FROM plan p WHERE p.admin_id = ?1", nativeQuery = true)
-    int getNumberOfPlansEnteredByAdmin(int adminId);
+    int getUserPlansCount(Long userId);
 
     @Query(nativeQuery = true, name = "LastPlanResult")
-    List<RecipePlanDTO> usrLstPln(int userId); // mapped to RecipePlanDTO in Plan entity
+    List<RecipePlanDTO> usrLstPln(Long userId); // mapped to RecipePlanDTO in Plan entity
 
     @Query(value = "SELECT name FROM plan WHERE id = (SELECT MAX(id) FROM plan WHERE admin_id = ?1)", nativeQuery = true)
-    String getLastPlanName(int userId);
+    String getLastPlanName(Long userId);
 }

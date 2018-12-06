@@ -4,9 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pl.coderslab.model.Recipe;
 
-public interface RecipeRepository extends JpaRepository<Recipe, Long>
-{
+import java.util.List;
+
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT count(*) FROM recipe r WHERE r.admin_id = ?1", nativeQuery = true)
-    int getNumberOfRecipesEnteredByAdmin(int adminId);
+    int getUserRecipesCount(Long userId);
+
+    @Query("SELECT r from Recipe r where r.admin.id =?1")
+    List<Recipe> getRecipesByUserId(Long userId);
 }
 
