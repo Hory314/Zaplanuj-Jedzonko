@@ -26,7 +26,7 @@
                     <td class="col-2">${plan.name}</td>
                     <td class="col-7">${plan.description}</td>
                     <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                        <a href="<c:url value='/plans/${plan.id}/delete'/>"
+                        <a href="<c:url value='/plans/delete/${plan.id}'/>"
                            class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                         <a href="<c:url value='/plans/${plan.id}'/>" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                         <a href="<c:url value='/plans/edit/${plan.id}'/>"

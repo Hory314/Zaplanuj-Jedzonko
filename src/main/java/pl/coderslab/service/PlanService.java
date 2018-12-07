@@ -94,11 +94,18 @@ public class PlanService
         return planRepository.findUserPlan(planId, userId);
     }
 
-    public Plan find(Long id) {
+    public Plan find(Long id)
+    {
         return planRepository.findOne(id);
     }
 
-    public void update(Plan plan) {
+    public void update(Plan plan)
+    {
         planRepository.save(plan);
+    }
+
+    public void delete(Long id)
+    {
+        planRepository.delete(id);
     }
 }
