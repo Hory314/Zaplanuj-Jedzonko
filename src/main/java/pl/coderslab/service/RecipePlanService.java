@@ -18,4 +18,7 @@ public class RecipePlanService
         recipePlanRepository.save(recipePlan);
     }
 
+    public RecipePlan getRecipePlanByRecipeId(Long id) {
+        return recipePlanRepository.findByRecipeId(id);
+    }
 }

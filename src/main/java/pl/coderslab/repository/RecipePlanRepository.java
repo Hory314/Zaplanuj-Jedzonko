@@ -5,5 +5,5 @@ import pl.coderslab.model.RecipePlan;
 
 public interface RecipePlanRepository extends JpaRepository<RecipePlan, Long>
 {
-
+    public RecipePlan findByRecipeId(Long id);
 }

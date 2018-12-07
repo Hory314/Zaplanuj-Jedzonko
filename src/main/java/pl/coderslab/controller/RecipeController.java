@@ -128,6 +128,22 @@ public class RecipeController
         return "redirect:../plan/add";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteRecipe( @PathVariable Long id)
+    {
+        RecipePlan recipePlan = recipePlanService.getRecipePlanByRecipeId(id);
+        if(recipePlan==null) {
+            recipeService.delete(id);
+            return "redirect:../../recipes";
+        }
+        else
+        {
+            //TODO information that this recipe cannot be deleted
+            return "redirect:../../recipes";
+        }
+
+    }
+
 
     @GetMapping("/{id}")
     public String recipeDetails(@PathVariable Long id, Model model, Principal principal)
