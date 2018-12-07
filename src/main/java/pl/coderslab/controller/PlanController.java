@@ -70,6 +70,7 @@ public class PlanController
 
         return "plan/details";
         // todo secure if user not allowed
+        
     }
     
     @GetMapping("/edit/{id}")
