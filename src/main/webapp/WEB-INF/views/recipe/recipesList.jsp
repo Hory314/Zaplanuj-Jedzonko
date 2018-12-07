@@ -29,7 +29,7 @@
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
                                 <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                                 <a href="<c:url value='/recipes/${item.id}'/>" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a href="<c:url value='/recipes/${item.id}/edit'/>" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+                                <a href="<c:url value='/recipes/edit/${item.id}'/>" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                             </td>
                     </tr>
                     </c:forEach>
