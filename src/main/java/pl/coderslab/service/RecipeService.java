@@ -64,4 +64,14 @@ public class RecipeService
 
         return recipeDTO;
     }
+
+    public Recipe find(Long id)
+    {
+        return recipeRepository.findOne(id);
+    }
+
+    public void update(Recipe recipe)
+    {
+        recipeRepository.save(recipe);
+    }
 }

@@ -4,22 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.model.*;
-import pl.coderslab.service.*;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dto.RecipeDTO;
-import pl.coderslab.model.Admin;
-import pl.coderslab.model.Recipe;
-import pl.coderslab.service.AdminService;
-import pl.coderslab.service.RecipeService;
+import pl.coderslab.model.*;
+import pl.coderslab.service.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
 import java.security.Principal;
 import java.util.List;
 
@@ -83,8 +74,37 @@ public class RecipeController
         return "redirect:../recipes";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editRecipe(Model model, @PathVariable Long id, Principal principal)
+    {
+        Admin user = adminService.findAdminByEmail(principal.getName());
+        Recipe recipe = recipeService.find(id);
+        model.addAttribute("user", user);
+        model.addAttribute(recipe);
+        return "recipe/addRecipe";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editEventPost(@PathVariable Long id, @ModelAttribute @Valid Recipe recipe,
+                                Principal principal, BindingResult result)
+    {
+        if(result.hasErrors()){
+            return "recipe/addRecipe";
+        }
+        if(recipe.getId()==null){
+            recipe.setId(id);
+        }
+        Recipe recipeOld = recipeService.find(id);
+        Admin user = adminService.findAdminByEmail(principal.getName());
+        recipe.setCreated(recipeOld.getCreated());
+        recipe.setAdmin(user);
+        recipeService.update(recipe);
+        return "redirect:../../recipes";
+    }
+
     @GetMapping("/plan/add")
-    public String addRecipeToPlanForm(Model model, Principal principal){
+    public String addRecipeToPlanForm(Model model, Principal principal)
+    {
         Admin user = adminService.findAdminByEmail(principal.getName());
         RecipePlan recipePlan = new RecipePlan();
         List<Plan> plans = planService.findPlansByUserId(user.getId());
@@ -99,7 +119,8 @@ public class RecipeController
     }
 
     @PostMapping("/plan/add")
-    public String addRecipeToPlan (@ModelAttribute @Valid RecipePlan recipePlan, BindingResult result) {
+    public String addRecipeToPlan (@ModelAttribute @Valid RecipePlan recipePlan, BindingResult result)
+    {
         if (result.hasErrors()) {
             return "recipe/addRecipeToPlan";
         }
@@ -131,7 +152,7 @@ public class RecipeController
         catch (NullPointerException | EntityNotFoundException e)
         {
             //e.printStackTrace();
-            return "dashboard/403"; // ... then catched and error site displayed
+            return "dashboard/403"; // ... then caught and error site displayed
         }
     }
 }
