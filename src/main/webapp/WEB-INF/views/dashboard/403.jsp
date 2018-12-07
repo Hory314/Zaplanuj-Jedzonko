@@ -9,5 +9,4 @@
         <span>Przepis nie istnieje lub nie masz do niego dostępu</span>
     </h3>
 </div>
-</div>
 <jsp:include page="footer.jsp"/>
