@@ -5,16 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import pl.coderslab.dto.RecipePlanDTO;
-
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.service.AdminService;
 import pl.coderslab.service.PlanService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -65,8 +62,7 @@ public class PlanController
 
 
     @GetMapping("/{id}")
-    public String planDetails(@PathVariable Long id, Model model, Principal principal)
-    {
+    public String planDetails(@PathVariable Long id, Model model, Principal principal) {
         Admin user = adminService.findAdminByEmail(principal.getName());
         Map<String, List<RecipePlanDTO>> planMap = planService.getSpecifiedPlanMap(user.getId(), id);
         model.addAttribute("plan_description", planService.findOne(id));
@@ -74,7 +70,8 @@ public class PlanController
 
         return "plan/details";
         // todo secure if user not allowed
-
+    }
+    
     @GetMapping("/edit/{id}")
     public String editRecipe(Model model, @PathVariable Long id, Principal principal)
     {
