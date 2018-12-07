@@ -74,4 +74,12 @@ public class PlanService
     {
         planRepository.save(plan);
     }
+
+    public Plan find(Long id) {
+        return planRepository.findOne(id);
+    }
+
+    public void update(Plan plan) {
+        planRepository.save(plan);
+    }
 }
