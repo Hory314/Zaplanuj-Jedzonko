@@ -37,4 +37,10 @@
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<c:url value='/logout'/>">
+            <span>Wyloguj</span>
+            <i class="fas fa-angle-right"></i>
+        </a>
+    </li>
 </ul>

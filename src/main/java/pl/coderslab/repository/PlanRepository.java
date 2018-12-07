@@ -15,6 +15,9 @@ public interface PlanRepository extends JpaRepository<Plan, Long>
     @Query(nativeQuery = true, name = "LastPlanResult")
     List<RecipePlanDTO> findUserLastPlan(Long userId); // mapped to RecipePlanDTO in Plan entity
 
+    @Query(nativeQuery = true, name = "UserPlanResult")
+    List<RecipePlanDTO> findUserPlan(Long planId, Long userId); // mapped to RecipePlanDTO in Plan entity
+
     @Query(value = "SELECT name FROM plan WHERE id = (SELECT MAX(id) FROM plan WHERE admin_id = ?1)", nativeQuery = true)
     String getLastPlanName(Long userId);
 
