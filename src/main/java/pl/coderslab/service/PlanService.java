@@ -69,4 +69,9 @@ public class PlanService
     public List<Plan> findPlansByUserId(Long userId){
         return planRepository.findAllByAdminId(userId);
     }
+
+    public void save(Plan plan)
+    {
+        planRepository.save(plan);
+    }
 }

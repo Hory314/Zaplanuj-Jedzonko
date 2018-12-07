@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.coderslab.dto.RecipeDTO;
 import pl.coderslab.model.Admin;
 import pl.coderslab.repository.AdminRepository;
 
@@ -29,5 +30,4 @@ public class AdminService {
         admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
         adminRepository.save(admin);
     }
-
 }
