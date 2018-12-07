@@ -10,14 +10,14 @@ public class RecipePlanDTO
 
     private String recipeName;
 
-    private String recipeDescription;
+    private Long recipeId;
 
-    public RecipePlanDTO(String dayName, String mealName, String recipeName, String recipeDescription)
+    public RecipePlanDTO(String dayName, String mealName, String recipeName, Long recipeId)
     {
         this.dayName = dayName;
         this.mealName = mealName;
         this.recipeName = recipeName;
-        this.recipeDescription = recipeDescription;
+        this.recipeId = recipeId;
     }
 
     public String getDayName()
@@ -50,14 +50,14 @@ public class RecipePlanDTO
         this.recipeName = recipeName;
     }
 
-    public String getRecipeDescription()
+    public Long getRecipeId()
     {
-        return recipeDescription;
+        return recipeId;
     }
 
-    public void setRecipeDescription(String recipeDescription)
+    public void setRecipeId(Long recipeId)
     {
-        this.recipeDescription = recipeDescription;
+        this.recipeId = recipeId;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RecipePlanDTO
                 "dayName='" + dayName + '\'' +
                 ", mealName='" + mealName + '\'' +
                 ", recipeName='" + recipeName + '\'' +
-                ", recipeDescription='" + recipeDescription + '\'' +
+                ", recipeId='" + recipeId + '\'' +
                 '}';
     }
 

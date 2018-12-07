@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
-<%--<h1>Zalogowano jako: ${logged_user.name} (<a href="<c:url value='/logout'/>">wyloguj</a>)</h1>--%>
-<%--<h3>Tu będzie dashboard...</h3>--%>
 <jsp:include page="header.jsp"/>
 <jsp:include page="nav.jsp"/>
 <div class="m-4 p-4 width-medium">
@@ -57,7 +55,9 @@
                         <td class="col-2">${dto.mealName}</td>
                         <td class="col-8">${dto.recipeName}</td>
                         <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
+                            <a href="<c:url value='/recipes/${dto.recipeId}'/>">
+                                <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>

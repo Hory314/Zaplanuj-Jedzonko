@@ -19,6 +19,11 @@ public class PlanService
     @Autowired
     PlanRepository planRepository;
 
+    public Plan findOne(Long id)
+    {
+        return planRepository.findOne(id);
+    }
+
     public int getUserPlansCount(Long userId)
     {
         return planRepository.getUserPlansCount(userId);
@@ -35,8 +40,26 @@ public class PlanService
      */
     public Map<String, List<RecipePlanDTO>> getLastPlanMap(Long userId)
     {
-        List<RecipePlanDTO> recipePlanDTOList = getUserLastPlan(userId);
+        return getPlanMap(getUserLastPlan(userId));
+    }
 
+    public Map<String, List<RecipePlanDTO>> getSpecifiedPlanMap(Long userId, Long planId)
+    {
+        return getPlanMap(getUserPlan(planId, userId));
+    }
+
+    public List<Plan> findPlansByUserId(Long userId)
+    {
+        return planRepository.findAllByAdminId(userId);
+    }
+
+    public void save(Plan plan)
+    {
+        planRepository.save(plan);
+    }
+
+    private Map<String, List<RecipePlanDTO>> getPlanMap(List<RecipePlanDTO> recipePlanDTOList)
+    {
         Map<String, List<RecipePlanDTO>> map = new LinkedHashMap<>(); // LinkedHashMap - like HashMap but save order of items
 
         String lastDayName = "";
@@ -66,13 +89,9 @@ public class PlanService
         return planRepository.findUserLastPlan(userId);
     }
 
-    public List<Plan> findPlansByUserId(Long userId){
-        return planRepository.findAllByAdminId(userId);
-    }
-
-    public void save(Plan plan)
+    private List<RecipePlanDTO> getUserPlan(Long planId, Long userId)
     {
-        planRepository.save(plan);
+        return planRepository.findUserPlan(planId, userId);
     }
 
     public Plan find(Long id) {
