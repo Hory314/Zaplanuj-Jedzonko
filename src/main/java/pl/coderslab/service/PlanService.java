@@ -63,7 +63,7 @@ public class PlanService
 
     private List<RecipePlanDTO> getUserLastPlan(Long userId)
     {
-        return planRepository.usrLstPln(userId);
+        return planRepository.findUserLastPlan(userId);
     }
 
     public List<Plan> findPlansByUserId(Long userId){

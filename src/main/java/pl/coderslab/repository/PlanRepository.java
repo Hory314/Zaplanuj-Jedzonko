@@ -13,7 +13,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long>
     int getUserPlansCount(Long userId);
 
     @Query(nativeQuery = true, name = "LastPlanResult")
-    List<RecipePlanDTO> usrLstPln(Long userId); // mapped to RecipePlanDTO in Plan entity
+    List<RecipePlanDTO> findUserLastPlan(Long userId); // mapped to RecipePlanDTO in Plan entity
 
     @Query(value = "SELECT name FROM plan WHERE id = (SELECT MAX(id) FROM plan WHERE admin_id = ?1)", nativeQuery = true)
     String getLastPlanName(Long userId);
