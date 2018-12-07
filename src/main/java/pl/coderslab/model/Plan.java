@@ -63,7 +63,7 @@ public class Plan
     @ManyToOne
     private Admin admin;
 
-    @OneToMany(mappedBy = "plan")
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<RecipePlan> recipePlans;
 
     public List<RecipePlan> getRecipePlans()
