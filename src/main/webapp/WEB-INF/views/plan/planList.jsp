@@ -29,7 +29,7 @@
                         <a href="<c:url value='/plans/${plan.id}/delete'/>"
                            class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                         <a href="<c:url value='/plans/${plan.id}'/>" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                        <a href="<c:url value='/plans/${plan.id}/edit'/>"
+                        <a href="<c:url value='/plans/edit/${plan.id}'/>"
                            class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                     </td>
                 </tr>
