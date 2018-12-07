@@ -15,10 +15,12 @@ import pl.coderslab.service.PlanService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/plans")
-public class PlanController {
+public class PlanController
+{
 
     @Autowired
     private PlanService planService;
@@ -30,14 +32,14 @@ public class PlanController {
     public String addPlanForm(Model model, Principal principal)
     {
         Admin user = adminService.findAdminByEmail(principal.getName());
-        Plan plan =new Plan();
+        Plan plan = new Plan();
         model.addAttribute("plan", plan);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "plan/addPlan";
     }
 
     @PostMapping("/add")
-    public String addPlan (@ModelAttribute @Valid Plan plan, Principal principal, BindingResult result)
+    public String addPlan(@ModelAttribute @Valid Plan plan, Principal principal, BindingResult result)
     {
         if (result.hasErrors())
         {
@@ -46,7 +48,15 @@ public class PlanController {
         Admin user = adminService.findAdminByEmail(principal.getName());
         plan.setAdmin(user);
         planService.save(plan);
-        return "redirect:../plan/list"; //not functioning yet
+        return "redirect:/plans";
     }
 
+    @GetMapping
+    public String planList(Model model, Principal principal)
+    {
+        Admin user = adminService.findAdminByEmail(principal.getName());
+        List<Plan> plans = planService.findPlansByUserId(user.getId());
+        model.addAttribute("plans", plans);
+        return "plan/planList";
+    }
 }
