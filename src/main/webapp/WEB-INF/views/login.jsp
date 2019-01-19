@@ -8,6 +8,7 @@
             <div class="container w-25">
                 <form class="padding-small text-center" method="post">
                     <h1 class="text-color-darker">Logowanie</h1>
+                    (demo@demo.pl / qwerty)
                     <div class="form-group">
                         <input type="text" class="form-control" id="email" name="username" placeholder="podaj adres email">
                     </div>
